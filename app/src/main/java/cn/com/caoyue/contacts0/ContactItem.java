@@ -1,16 +1,19 @@
 package cn.com.caoyue.contacts0;
 
-/**
- * Created by 冰月 on 2015/12/9.
- */
 public class ContactItem {
 
+    private int id;
     private String name;
     private String number;
 
-    public ContactItem(String name, String number) {
+    public ContactItem(int id, String name, String number) {
+        this.id = id;
         this.name = name;
         this.number = number;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

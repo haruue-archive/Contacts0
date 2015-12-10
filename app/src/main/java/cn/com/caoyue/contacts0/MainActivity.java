@@ -7,14 +7,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> names = new ArrayList<String>(0);
-    private ArrayList<String> numbers = new ArrayList<String>(0);
+    private ArrayList<ContactItem> contactItemArrayList = new ArrayList<ContactItem>(0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +34,10 @@ public class MainActivity extends AppCompatActivity {
         });
         //获取通讯录
         getContacts();
-        //设置 contactItemArrayList
-        ArrayList<ContactItem> contactItemArrayList = new ArrayList<ContactItem>();
-        for (int i = 0; i < names.size(); i++) {
-            contactItemArrayList.add(new ContactItem(names.get(i), numbers.get(i)));
-        }
         //设置 ListView
         ListView contactList = (ListView) findViewById(R.id.list_contacts);
         contactList.setAdapter(new ContactAdapter(MainActivity.this, R.layout.contact_item, contactItemArrayList));
+        contactList.setOnItemClickListener(new ListenerInMain());
     }
 
     /**
@@ -51,14 +48,16 @@ public class MainActivity extends AppCompatActivity {
         try {
             cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
             while (cursor.moveToNext()) {
+                int id = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
                 String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                names.add(name);
-                numbers.add(number);
+                contactItemArrayList.add(new ContactItem(id, name, number));
             }
             cursor.close();
         } catch (Exception e) {
             Log.e("Error_getContacts()", e.toString());
+            Toast.makeText(getApplicationContext(), R.string.permission_error, Toast.LENGTH_LONG).show();
+            finish();
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -66,13 +65,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class Listener implements View.OnClickListener {
+    private class ListenerInMain implements View.OnClickListener, AdapterView.OnItemClickListener {
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
 
             }
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            InfoActivity.actionStart(MainActivity.this, contactItemArrayList.get(position).getId());
         }
     }
 }

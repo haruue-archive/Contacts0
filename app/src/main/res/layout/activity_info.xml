@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.com.caoyue.contacts0.InfoActivity">
+
+    <include
+        android:id="@+id/toolbar_inInfo"
+        layout="@layout/toolbar_with_back" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_inInfo"
+        android:layout_marginTop="15dp"
+        android:textSize="50sp"
+        android:textColor="@color/colorOfDisplayName" />
+
+    <TextView
+        android:id="@+id/phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginTop="8dp"
+        android:textSize="30sp"
+        android:textColor="@color/black" />
+
+</RelativeLayout>
