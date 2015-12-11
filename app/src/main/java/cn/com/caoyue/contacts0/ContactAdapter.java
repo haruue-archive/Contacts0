@@ -22,11 +22,25 @@ public class ContactAdapter extends ArrayAdapter<ContactItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ContactItem contactItem = getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resourceID, null);
-        TextView nameTextView = (TextView) view.findViewById(R.id.contact_item_name);
-        TextView numberTextView = (TextView) view.findViewById(R.id.contact_item_number);
-        nameTextView.setText(contactItem.getName());
-        numberTextView.setText(contactItem.getNumber());
+        View view;
+        ViewHolder viewHolder;
+        if (null == convertView) {
+            view = LayoutInflater.from(getContext()).inflate(resourceID, null);
+            viewHolder = new ViewHolder();
+            viewHolder.nameView = (TextView) view.findViewById(R.id.contact_item_name);
+            viewHolder.numberView = (TextView) view.findViewById(R.id.contact_item_number);
+            view.setTag(viewHolder);
+        } else {
+            view = convertView;
+            viewHolder = (ViewHolder) view.getTag();
+        }
+        viewHolder.nameView.setText(contactItem.getName());
+        viewHolder.numberView.setText(contactItem.getNumber());
         return view;
+    }
+
+    public final class ViewHolder {
+        public TextView nameView;
+        public TextView numberView;
     }
 }
