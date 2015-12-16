@@ -1,46 +1,39 @@
 package cn.com.caoyue.contacts0;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
-public class ContactAdapter extends ArrayAdapter<ContactItem> {
+public class ContactAdapter extends RecyclerArrayAdapter<ContactItem> {
 
-    private int resourceID;
-
-    public ContactAdapter(Context context, int resource, List<ContactItem> objects) {
-        super(context, resource, objects);
-        resourceID = resource;
+    public ContactAdapter(Context context) {
+        super(context);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ContactItem contactItem = getItem(position);
-        View view;
-        ViewHolder viewHolder;
-        if (null == convertView) {
-            view = LayoutInflater.from(getContext()).inflate(resourceID, null);
-            viewHolder = new ViewHolder();
-            viewHolder.nameView = (TextView) view.findViewById(R.id.contact_item_name);
-            viewHolder.numberView = (TextView) view.findViewById(R.id.contact_item_number);
-            view.setTag(viewHolder);
-        } else {
-            view = convertView;
-            viewHolder = (ViewHolder) view.getTag();
-        }
-        viewHolder.nameView.setText(contactItem.getName());
-        viewHolder.numberView.setText(contactItem.getNumber());
-        return view;
+    public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ContactViewHolder(parent);
     }
 
-    public final class ViewHolder {
-        public TextView nameView;
-        public TextView numberView;
+
+    private class ContactViewHolder extends BaseViewHolder<ContactItem> {
+
+        private TextView nameView;
+        private TextView numberView;
+
+        public ContactViewHolder(ViewGroup parent) {
+            super(parent, R.layout.contact_item);
+            nameView = $(R.id.contact_item_name);
+            numberView = $(R.id.contact_item_number);
+        }
+
+        @Override
+        public void setData(final ContactItem contactItem) {
+            nameView.setText(contactItem.getName());
+            numberView.setText(contactItem.getNumber());
+        }
     }
 }

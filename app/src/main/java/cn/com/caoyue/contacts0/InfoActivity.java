@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jude.utils.JUtils;
+
 public class InfoActivity extends AppCompatActivity {
 
     private int id;
@@ -22,6 +24,9 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+        //初始化朱大工具
+        JUtils.initialize(getApplication());
+        JUtils.setDebug(BuildConfig.DEBUG, "inMain");
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_inInfo);
         toolbar.setTitle(R.string.information_title);
@@ -36,7 +41,7 @@ public class InfoActivity extends AppCompatActivity {
         //取回id
         id = getIntent().getIntExtra("id", -1);
         if (id == -1) {
-            Toast.makeText(getApplicationContext(), R.string.unexpected_error, Toast.LENGTH_LONG).show();
+            JUtils.ToastLong(getResources().getString(R.string.unexpected_error));
             finish();
         }
         Cursor cursor = null;
@@ -49,7 +54,7 @@ public class InfoActivity extends AppCompatActivity {
             cursor.close();
         } catch (Exception e) {
             Log.e("Error_getContacts()", e.toString());
-            Toast.makeText(getApplicationContext(), R.string.permission_error, Toast.LENGTH_LONG).show();
+            JUtils.ToastLong(getResources().getString(R.string.permission_error));
             finish();
         } finally {
             if (cursor != null) {

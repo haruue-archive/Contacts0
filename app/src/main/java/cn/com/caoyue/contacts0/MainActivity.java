@@ -1,26 +1,36 @@
 package cn.com.caoyue.contacts0;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.database.Cursor;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+
+import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<ContactItem> contactItemArrayList = new ArrayList<ContactItem>(0);
+    private EasyRecyclerView contactsRecyclerView;
+    private ContactAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //初始化朱大工具
+        JUtils.initialize(getApplication());
+        JUtils.setDebug(BuildConfig.DEBUG, "inMain");
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_inMain);
         toolbar.setTitle(R.string.app_name);
@@ -34,10 +44,39 @@ public class MainActivity extends AppCompatActivity {
         });
         //获取通讯录
         getContacts();
-        //设置 ListView
-        ListView contactList = (ListView) findViewById(R.id.list_contacts);
-        contactList.setAdapter(new ContactAdapter(MainActivity.this, R.layout.contact_item, contactItemArrayList));
-        contactList.setOnItemClickListener(new ListenerInMain());
+        //初始化contacts view
+        initContactsView();
+    }
+
+    /**
+     * 初始化 EasyRecycler
+     */
+    private void initContactsView() {
+        contactsRecyclerView = (EasyRecyclerView) findViewById(R.id.recyclerView_contacts);
+        contactsRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        contactsRecyclerView.setAdapterWithProgress(adapter = new ContactAdapter(MainActivity.this));
+        adapter.addAll(contactItemArrayList);
+        adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            //动画
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            void rippleAnimation(int position) {
+                final View view = findViewById((int) adapter.getItemId(position));
+                view.animate().translationZ(15F).setDuration(300).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.animate().translationZ(1f).setDuration(500).start();
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onItemClick(int position) {
+                rippleAnimation(position);
+                //跳转到详情页
+                InfoActivity.actionStart(MainActivity.this, contactItemArrayList.get(position).getId());
+            }
+        });
     }
 
     /**
@@ -55,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
             }
             cursor.close();
         } catch (Exception e) {
-            Log.e("Error_getContacts()", e.toString());
-            Toast.makeText(getApplicationContext(), R.string.permission_error, Toast.LENGTH_LONG).show();
+            JUtils.Log("Error_getContacts(): " + e.toString());
+            JUtils.ToastLong(getResources().getString(R.string.permission_error));
             finish();
         } finally {
             if (cursor != null) {
@@ -65,18 +104,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class ListenerInMain implements View.OnClickListener, AdapterView.OnItemClickListener {
+    private class ListenerInMain implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
 
             }
-        }
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            InfoActivity.actionStart(MainActivity.this, contactItemArrayList.get(position).getId());
         }
     }
 }
