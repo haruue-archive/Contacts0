@@ -4,4 +4,12 @@
     <string name="permission_error">错误: 无法获取系统通讯录，请检查是否授权。</string>
     <string name="information_title">详细信息</string>
     <string name="contact_empty">暂无联系人，点击添加</string>
+    <string name="name">姓名</string>
+    <string name="number">手机号码</string>
+    <string name="tip_input_info">请输入联系人信息</string>
+    <string name="new_contact">新建联系人</string>
+    <string name="edit_contact">编辑联系人</string>
+    <string name="delete_contact">删除联系人</string>
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
 </resources>

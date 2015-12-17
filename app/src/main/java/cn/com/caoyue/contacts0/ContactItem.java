@@ -2,17 +2,21 @@ package cn.com.caoyue.contacts0;
 
 public class ContactItem {
 
-    private int id;
+    private long id;
     private String name;
     private String number;
 
-    public ContactItem(int id, String name, String number) {
+    public ContactItem(long id, String name, String number) {
         this.id = id;
         this.name = name;
         this.number = number;
     }
 
-    public int getId() {
+    public void setId(long newId) {
+        this.id = newId;
+    }
+
+    public long getId() {
         return id;
     }
 

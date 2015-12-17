@@ -17,4 +17,18 @@
         android:layout_below="@id/toolbar_inMain"
         app:layout_empty="@layout/view_empty"
         app:layout_error="@layout/view_error" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/fab_add"
+        app:fab_colorNormal="?colorAccent"
+        app:fab_colorPressed="?colorAccent"
+        app:fab_size="normal" />
+
 </RelativeLayout>

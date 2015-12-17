@@ -12,8 +12,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.jude.utils.JActivityManager;
 import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         //初始化朱大工具
         JUtils.initialize(getApplication());
         JUtils.setDebug(BuildConfig.DEBUG, "inMain");
+        JActivityManager.getInstance().pushActivity(this);
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_inMain);
         toolbar.setTitle(R.string.app_name);
@@ -46,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
         getContacts();
         //初始化contacts view
         initContactsView();
+        //[添加]按钮
+        FloatingActionButton addButton = ((FloatingActionButton) findViewById(R.id.add_button));
+        addButton.setOnClickListener(new ListenerInMain());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JActivityManager.getInstance().popActivity(this);
     }
 
     /**
@@ -83,25 +95,8 @@ public class MainActivity extends AppCompatActivity {
      * 获取系统通讯录信息并存储到 ArrayList 里
      */
     private void getContacts() {
-        Cursor cursor = null;
-        try {
-            cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-            while (cursor.moveToNext()) {
-                int id = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
-                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                contactItemArrayList.add(new ContactItem(id, name, number));
-            }
-            cursor.close();
-        } catch (Exception e) {
-            JUtils.Log("Error_getContacts(): " + e.toString());
-            JUtils.ToastLong(getResources().getString(R.string.permission_error));
-            finish();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
+        contactItemArrayList.addAll(ContactsControl.getContactsControl(MainActivity.this).getContactItemArrayList());
+        JUtils.Log("arrayCon", contactItemArrayList.toString());
     }
 
     private class ListenerInMain implements View.OnClickListener {
@@ -109,7 +104,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-
+                case R.id.add_button:
+                    EditActivity.actionStart(MainActivity.this, 0, "", "", EditActivity.REQUEST_CODE_NEW);
+                    break;
             }
         }
     }
