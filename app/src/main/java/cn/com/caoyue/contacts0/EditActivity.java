@@ -85,6 +85,10 @@ public class EditActivity extends AppCompatActivity {
                 case R.id.ok_button:
                     String name = ((FloatLabel) findViewById(R.id.name_input)).getEditText().getText().toString();
                     String number = ((FloatLabel) findViewById(R.id.number_input)).getEditText().getText().toString();
+                    if (name.isEmpty() || number.isEmpty()) {
+                        JUtils.Toast(getResources().getString(R.string.name_or_number_empty));
+                        return;
+                    }
                     ContactItem newContactItem;
                     switch (requestCode) {
                         case REQUEST_CODE_NEW:

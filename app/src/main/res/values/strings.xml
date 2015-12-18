@@ -14,4 +14,7 @@
     <string name="cancel">取消</string>
     <string name="tip_delete_contact">此操作将删除该联系人的所有数据且不可撤销，是否继续？</string>
     <string name="failed">失败</string>
+    <string name="call">拨打电话</string>
+    <string name="call_failed">错误: 无法拨打电话，请检查是否授权。</string>
+    <string name="name_or_number_empty">姓名和手机号码不能为空</string>
 </resources>

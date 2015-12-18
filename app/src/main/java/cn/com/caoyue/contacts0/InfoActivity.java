@@ -1,8 +1,12 @@
 package cn.com.caoyue.contacts0;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +53,8 @@ public class InfoActivity extends AppCompatActivity {
         ((CardView) findViewById(R.id.edit_button)).setOnClickListener(new ListenerInInfo());
         //[删除]按钮
         ((CardView) findViewById(R.id.delete_button)).setOnClickListener(new ListenerInInfo());
+        //[呼叫]按钮
+        ((CardView) findViewById(R.id.call_button)).setOnClickListener(new ListenerInInfo());
     }
 
     private class ListenerInInfo implements View.OnClickListener {
@@ -79,6 +85,10 @@ public class InfoActivity extends AppCompatActivity {
                         }
                     });
                     builder.create().show();
+                    break;
+                case R.id.call_button:
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactItem.getNumber()));
+                    startActivity(intent);
                     break;
             }
         }
