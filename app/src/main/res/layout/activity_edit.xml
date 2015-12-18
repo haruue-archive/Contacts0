@@ -41,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="@string/name"
-                android:layout="@layout/floatlabel_layout" />
+                android:layout="@layout/floatlabel_layout"
+                android:inputType="text|textPersonName" />
 
             <com.iangclifton.android.floatlabel.FloatLabel
                 android:id="@+id/number_input"
@@ -49,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="@string/number"
-                android:layout="@layout/floatlabel_layout" />
+                android:layout="@layout/floatlabel_layout"
+                android:inputType="text|phone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

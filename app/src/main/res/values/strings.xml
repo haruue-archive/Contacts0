@@ -3,7 +3,7 @@
     <string name="unexpected_error">错误: 不可预料的错误，如果你是在正常使用程序的过程中发现此错误，请报告给开发者。</string>
     <string name="permission_error">错误: 无法获取系统通讯录，请检查是否授权。</string>
     <string name="information_title">详细信息</string>
-    <string name="contact_empty">暂无联系人，点击添加</string>
+    <string name="contact_empty">暂无联系人，请点击右下角的添加按钮</string>
     <string name="name">姓名</string>
     <string name="number">手机号码</string>
     <string name="tip_input_info">请输入联系人信息</string>
@@ -12,4 +12,6 @@
     <string name="delete_contact">删除联系人</string>
     <string name="ok">确认</string>
     <string name="cancel">取消</string>
+    <string name="tip_delete_contact">此操作将删除该联系人的所有数据且不可撤销，是否继续？</string>
+    <string name="failed">失败</string>
 </resources>

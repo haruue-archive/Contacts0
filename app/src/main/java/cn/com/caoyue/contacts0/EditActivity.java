@@ -20,6 +20,7 @@ public class EditActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_NEW = 54646;
     public static final int REQUEST_CODE_EDIT = 35465;
+    private int requestCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class EditActivity extends AppCompatActivity {
         JUtils.setDebug(BuildConfig.DEBUG, "inEdit");
         JActivityManager.getInstance().pushActivity(this);
         //获取请求类型
-        int requestCode = getIntent().getIntExtra("requestCode", -1);
+        requestCode = getIntent().getIntExtra("requestCode", -1);
         //杀掉异常请求
         if (requestCode != REQUEST_CODE_NEW && requestCode != REQUEST_CODE_EDIT) {
             unexpectedError("undefRequestCode: " + requestCode);
@@ -62,10 +63,10 @@ public class EditActivity extends AppCompatActivity {
                 String origNumber = getIntent().getStringExtra("defaultNumber");
                 ((FloatLabel) findViewById(R.id.name_input)).setText(origName);
                 ((FloatLabel) findViewById(R.id.number_input)).setText(origNumber);
-                ((TextView) findViewById(R.id.ok_button)).setOnClickListener(new ListenerInEdit());
-                ((TextView) findViewById(R.id.cancel_button)).setOnClickListener(new ListenerInEdit());
                 break;
         }
+        ((TextView) findViewById(R.id.ok_button)).setOnClickListener(new ListenerInEdit());
+        ((TextView) findViewById(R.id.cancel_button)).setOnClickListener(new ListenerInEdit());
     }
 
     //异常请求处理
@@ -82,6 +83,31 @@ public class EditActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.ok_button:
+                    String name = ((FloatLabel) findViewById(R.id.name_input)).getEditText().getText().toString();
+                    String number = ((FloatLabel) findViewById(R.id.number_input)).getEditText().getText().toString();
+                    ContactItem newContactItem;
+                    switch (requestCode) {
+                        case REQUEST_CODE_NEW:
+                            newContactItem = ContactsControl.getContactsControl(EditActivity.this).add(new ContactItem(0, name, number));
+                            break;
+                        case REQUEST_CODE_EDIT:
+                            long origID = getIntent().getLongExtra("id", -1);
+                            newContactItem = ContactsControl.getContactsControl(EditActivity.this).update(origID, new ContactItem(0, name, number));
+                            break;
+                        default:
+                            unexpectedError("unexpectedRequestCode" + requestCode);
+                            JUtils.ToastLong(getResources().getString(R.string.failed));
+                            setResult(RESULT_CANCELED);
+                            finish();
+                            return;
+                    }
+                    //设置返回数据
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("id", newContactItem.getId());
+                    resultIntent.putExtra("name", newContactItem.getName());
+                    resultIntent.putExtra("number", newContactItem.getNumber());
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
                     break;
                 case R.id.cancel_button:
                     setResult(RESULT_CANCELED);

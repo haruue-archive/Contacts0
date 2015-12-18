@@ -3,9 +3,7 @@ package cn.com.caoyue.contacts0;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.database.Cursor;
 import android.os.Build;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +20,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<ContactItem> contactItemArrayList = new ArrayList<ContactItem>(0);
     private EasyRecyclerView contactsRecyclerView;
     private ContactAdapter adapter;
 
@@ -46,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //获取通讯录
-        getContacts();
+        ContactsControl.getContactsControl(MainActivity.this);
         //初始化contacts view
         initContactsView();
         //[添加]按钮
@@ -67,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         contactsRecyclerView = (EasyRecyclerView) findViewById(R.id.recyclerView_contacts);
         contactsRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         contactsRecyclerView.setAdapterWithProgress(adapter = new ContactAdapter(MainActivity.this));
-        adapter.addAll(contactItemArrayList);
+        adapter.addAll(ContactsControl.getContactsControl(MainActivity.this).getContactItemArrayList());
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             //动画
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -86,17 +83,35 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int position) {
                 rippleAnimation(position);
                 //跳转到详情页
-                InfoActivity.actionStart(MainActivity.this, contactItemArrayList.get(position).getId());
+                InfoActivity.actionStart(MainActivity.this, adapter.getItem(position).getId());
             }
         });
+        update();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        update();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        update();
     }
 
     /**
-     * 获取系统通讯录信息并存储到 ArrayList 里
+     * 刷新表
      */
-    private void getContacts() {
-        contactItemArrayList.addAll(ContactsControl.getContactsControl(MainActivity.this).getContactItemArrayList());
-        JUtils.Log("arrayCon", contactItemArrayList.toString());
+    private void update() {
+        if (ContactArrayWatcher.getContactArrayWatcher().isChanged()) {
+            adapter.addAll(ContactArrayWatcher.getContactArrayWatcher().getAddArray());
+            for (ContactItem i : ContactArrayWatcher.getContactArrayWatcher().getRemoveArray()) {
+                adapter.remove(i);
+            }
+            ContactArrayWatcher.getContactArrayWatcher().clean();
+        }
     }
 
     private class ListenerInMain implements View.OnClickListener {
