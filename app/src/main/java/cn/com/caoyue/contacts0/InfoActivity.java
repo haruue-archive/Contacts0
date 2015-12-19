@@ -57,6 +57,8 @@ public class InfoActivity extends AppCompatActivity {
         ((CardView) findViewById(R.id.call_button)).setOnClickListener(new ListenerInInfo());
         //[复制]按钮
         ((CardView) findViewById(R.id.copy_button)).setOnClickListener(new ListenerInInfo());
+        //[短信]按钮
+        ((CardView) findViewById(R.id.msg_button)).setOnClickListener(new ListenerInInfo());
     }
 
     private class ListenerInInfo implements View.OnClickListener {
@@ -89,12 +91,18 @@ public class InfoActivity extends AppCompatActivity {
                     builder.create().show();
                     break;
                 case R.id.call_button:
-                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactItem.getNumber()));
-                    startActivity(intent);
+                    Intent intentDial = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactItem.getNumber()));
+                    startActivity(intentDial);
+                    JActivityManager.getInstance().closeAllActivity();
                     break;
                 case R.id.copy_button:
                     JUtils.copyToClipboard(contactItem.getName() + " " + contactItem.getNumber());
                     JUtils.Toast(getResources().getString(R.string.copy_to_clipboard_success));
+                    break;
+                case R.id.msg_button:
+                    Intent intentSms = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + contactItem.getNumber()));
+                    startActivity(intentSms);
+                    JActivityManager.getInstance().closeAllActivity();
                     break;
             }
         }

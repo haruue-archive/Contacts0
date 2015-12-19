@@ -19,4 +19,5 @@
     <string name="name_or_number_empty">姓名和手机号码不能为空</string>
     <string name="copy_to_clipboard">复制到剪贴板</string>
     <string name="copy_to_clipboard_success">成功复制联系人信息到剪贴板</string>
+    <string name="send_sms">发送短信</string>
 </resources>

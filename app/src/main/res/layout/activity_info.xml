@@ -90,10 +90,30 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/call_button"
+        android:id="@+id/msg_button"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_above="@id/copy_button"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:text="@string/send_sms"
+            android:background="@drawable/ripple_blue"
+            android:textSize="25sp"
+            android:textColor="@color/white" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/call_button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_above="@id/msg_button"
         android:layout_margin="10dp">
 
         <TextView
