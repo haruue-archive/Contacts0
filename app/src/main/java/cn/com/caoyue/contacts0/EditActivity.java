@@ -2,6 +2,7 @@ package cn.com.caoyue.contacts0;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -25,7 +26,11 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setContentView(R.layout.activity_edit);
+        } else {
+            setContentView(R.layout.activity_edit_v20);
+        }
         //初始化朱大工具
         JUtils.initialize(getApplication());
         JUtils.setDebug(BuildConfig.DEBUG, "inEdit");

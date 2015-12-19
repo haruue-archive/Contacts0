@@ -67,16 +67,20 @@ public class MainActivity extends AppCompatActivity {
         adapter.addAll(ContactsControl.getContactsControl(MainActivity.this).getContactItemArrayList());
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             //动画
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
             void rippleAnimation(int position) {
                 final View view = findViewById((int) adapter.getItemId(position));
-                view.animate().translationZ(15F).setDuration(300).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        view.animate().translationZ(1f).setDuration(500).start();
-                    }
-                }).start();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.animate().translationZ(15F).setDuration(300).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                view.animate().translationZ(1f).setDuration(500).start();
+                            }
+                        }
+                    }).start();
+                }
             }
 
             @Override

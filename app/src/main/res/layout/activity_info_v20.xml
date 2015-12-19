@@ -47,7 +47,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:gravity="center"
-            android:background="@drawable/ripple_red"
+            android:background="@color/red"
             android:text="@string/delete_contact"
             android:textSize="25sp"
             android:textColor="@color/white" />
@@ -71,7 +71,7 @@
             android:paddingBottom="10dp"
             android:gravity="center"
             android:text="@string/edit_contact"
-            android:background="@drawable/ripple_default"
+            android:background="@color/white"
             android:textSize="25sp"
             android:textColor="@color/black" />
 
@@ -94,7 +94,7 @@
             android:paddingBottom="10dp"
             android:gravity="center"
             android:text="@string/copy_to_clipboard"
-            android:background="@drawable/ripple_default"
+            android:background="@color/white"
             android:textSize="25sp"
             android:textColor="@color/black" />
 
@@ -117,7 +117,7 @@
             android:paddingBottom="10dp"
             android:gravity="center"
             android:text="@string/send_sms"
-            android:background="@drawable/ripple_blue"
+            android:background="@color/sms_blue"
             android:textSize="25sp"
             android:textColor="@color/white" />
 
@@ -140,7 +140,7 @@
             android:paddingBottom="10dp"
             android:gravity="center"
             android:text="@string/call"
-            android:background="@drawable/ripple_green"
+            android:background="@color/call_green"
             android:textSize="25sp"
             android:textColor="@color/white" />
 
