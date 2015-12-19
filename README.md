@@ -15,14 +15,14 @@
 
 ## Dependencies
 ```
-    // 朱大工具类 https://github.com/Jude95/Utils.git
-    compile 'com.jude:utils:1.1.0'
-    // EasyRecyclerView https://github.com/Jude95/EasyRecyclerView.git
-    compile 'com.jude:easyrecyclerview:3.2.3'
-    // 实现 hint 自动上浮动画的 EditView https://github.com/IanGClifton/AndroidFloatLabel.git
-    compile 'com.iangclifton.android:floatlabel:1.0.4'
-    // 实现浮动的 ActionButton https://github.com/Clans/FloatingActionButton.git
-    compile 'com.github.clans:fab:1.6.0'
+// 朱大工具类 https://github.com/Jude95/Utils.git
+compile 'com.jude:utils:1.1.0'
+// EasyRecyclerView https://github.com/Jude95/EasyRecyclerView.git
+compile 'com.jude:easyrecyclerview:3.2.3'
+// 实现 hint 自动上浮动画的 EditView https://github.com/IanGClifton/AndroidFloatLabel.git
+compile 'com.iangclifton.android:floatlabel:1.0.4'
+// 实现浮动的 ActionButton https://github.com/Clans/FloatingActionButton.git
+compile 'com.github.clans:fab:1.6.0'
 ```
 
 ## Developed by
