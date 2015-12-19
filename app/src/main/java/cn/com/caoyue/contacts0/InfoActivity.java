@@ -55,6 +55,8 @@ public class InfoActivity extends AppCompatActivity {
         ((CardView) findViewById(R.id.delete_button)).setOnClickListener(new ListenerInInfo());
         //[呼叫]按钮
         ((CardView) findViewById(R.id.call_button)).setOnClickListener(new ListenerInInfo());
+        //[复制]按钮
+        ((CardView) findViewById(R.id.copy_button)).setOnClickListener(new ListenerInInfo());
     }
 
     private class ListenerInInfo implements View.OnClickListener {
@@ -89,6 +91,10 @@ public class InfoActivity extends AppCompatActivity {
                 case R.id.call_button:
                     Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactItem.getNumber()));
                     startActivity(intent);
+                    break;
+                case R.id.copy_button:
+                    JUtils.copyToClipboard(contactItem.getName() + " " + contactItem.getNumber());
+                    JUtils.Toast(getResources().getString(R.string.copy_to_clipboard_success));
                     break;
             }
         }
