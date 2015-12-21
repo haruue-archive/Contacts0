@@ -99,6 +99,7 @@ public class InfoActivity extends AppCompatActivity {
                     Intent intentDial = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactItem.getNumber()));
                     startActivity(intentDial);
                     JActivityManager.getInstance().closeAllActivity();
+                    System.exit(0);
                     break;
                 case R.id.copy_button:
                     JUtils.copyToClipboard(contactItem.getName() + " " + contactItem.getNumber());
@@ -108,6 +109,7 @@ public class InfoActivity extends AppCompatActivity {
                     Intent intentSms = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + contactItem.getNumber()));
                     startActivity(intentSms);
                     JActivityManager.getInstance().closeAllActivity();
+                    System.exit(0);
                     break;
             }
         }
