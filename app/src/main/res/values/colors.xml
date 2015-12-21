@@ -7,7 +7,10 @@
     <color name="colorOfDisplayName">#000000</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
+    <color name="white_red">#ff7474</color>
     <color name="white">#FFFFFF</color>
     <color name="call_green">#00c853</color>
+    <color name="white_green">#7fcd9f</color>
     <color name="sms_blue">#0288D1</color>
+    <color name="white_blue">#47a4d6</color>
 </resources>

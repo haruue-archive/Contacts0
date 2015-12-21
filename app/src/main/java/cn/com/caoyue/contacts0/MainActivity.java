@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.addAll(ContactsControl.getContactsControl(MainActivity.this).getContactItemArrayList());
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             //动画
-
             void rippleAnimation(int position) {
                 final View view = findViewById((int) adapter.getItemId(position));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
