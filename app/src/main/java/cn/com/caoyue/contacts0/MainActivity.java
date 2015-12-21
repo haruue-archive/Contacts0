@@ -2,7 +2,6 @@ package cn.com.caoyue.contacts0;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +14,6 @@ import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.utils.JActivityManager;
 import com.jude.utils.JUtils;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -111,9 +108,15 @@ public class MainActivity extends AppCompatActivity {
         if (ContactArrayWatcher.getContactArrayWatcher().isChanged()) {
             adapter.addAll(ContactArrayWatcher.getContactArrayWatcher().getAddArray());
             for (ContactItem i : ContactArrayWatcher.getContactArrayWatcher().getRemoveArray()) {
-                adapter.remove(i);
+                try {
+                    int position = adapter.getPosition(i);
+                    adapter.remove(position);
+                    adapter.notifyItemRemoved(position);
+                } catch (Exception ignored) {
+
+                }
             }
-            ContactArrayWatcher.getContactArrayWatcher().clean();
+            ContactArrayWatcher.getContactArrayWatcher().clear();
         }
     }
 

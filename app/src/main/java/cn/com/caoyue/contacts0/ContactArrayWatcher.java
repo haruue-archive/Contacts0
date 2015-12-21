@@ -47,7 +47,7 @@ public class ContactArrayWatcher {
         return isChanged;
     }
 
-    public void clean() {
+    public void clear() {
         init();
     }
 }
